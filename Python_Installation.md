@@ -1,16 +1,22 @@
 # Installing Python
 
-This is guide for those trying to install Python for the first time, or who already have Python installed and want to install a set of packages/libraries
+This is guide for those trying to install Python for the first time on their local machine. Because it is currently the most popular programming package out there, there are a myriad different ways of getting Python set up on your machine, as well as many different programs, called editors or Integrated Development Environments, to write and run Python programs. Perusing your way through all the different ways to Python can be a painful process. That is why we will show you the two easiest (in my opinion anyway) ways to install python on your machine, along with managing all of the open source packages that make life as a Pythonista much easier!
+
+In order to use Python on your computer, you need to install python, a package manager for open source packages, and optionally, a editor (a program that makes it easier to write code) or Integrated Development Environment ( or IDE, a program that makes it easier to write code, as well as run that code you have created). In this course we strongly recommend you use a python packaging manager like Anaconda, or Enthought to manage the version of Python. This is because the dependencies that a program you write can be quite fragile, and if you update one version of a python package, it may end up breaking your code by not being able to play well with the other python packages installed. So use a Python dependency manager like Anaconda will help by doing a couple of things:
+
+1. Making sure that all of the dependencies will work with each other
+2. Allowing you to create multiple virtual environments (aka versions of python, and it's packages), where you can protect the changes you make in one project without breaking things in another project
+3. allow for saving and sharing the exact set of packages you used to do the cool thing you are going to do with Python.
 
 
-The options are:
+We show you how to use Anaconda here, as it is more popular in the research field, and the one that we use most often. It has the added benefit that it can also manage related software such as R, and some other related programming languages to make it even more handy! As for doing the actually writing and running of the code, we will use jupyter notebooks.
+
+The options we will show you in this document are:
 - Anaconda - The easiest option. Installs base Python as well as a range of commonly used packages. Requires approximately 400mb of space on hard-drive.
 - Miniconda - Slightly harder option. Installs base Python, and allows the user to control which packages to install. Good for people with limited space.
 - pip - Slighter harder still option. The in-built Python installation manager. 
 
-As this introductory workshop is designed to be paired with the event *Open Research*, this installation guide will also cover the package dependencies required for the stats and visualisation extension workshop which will be run during the event.
-
-If you are not taking part in the Open Research event, then you can just install base Python as per the instructions below, but only install the Jupyter and Numpy packages (if using miniconda or pip)
+As this introductory workshop is designed to be paired with the *VALA tech camp introduction to python workshop*, this installation guide will also cover the package dependencies required for the workshop,
 
 
 ## Installing Python with Anaconda
@@ -37,19 +43,9 @@ This is the better option for people with limited memory left on their device. T
 
 2) Run the exe installer and install using default choices.  By clicking next.  (The installation might take a few minutes if the computer is slow, you can click "Show Details" to see the installation progress.
 
-3) When installation is complete, find and open a program called `Select Anaconda Prompt` from the Windows Start Menu. 
 
-This will open a new window with a black background (it might keep blinking if the computer is slow).  Wait until you can start typing
 
-4) Type `conda install jupyter numpy pandas matplotlib bokeh` and hit `ENTER` key.  When asked do you want to proceed, type `y` and hit `ENTER`.
-
-   This will take a few minutes to download the jupyter packages. 
-   
-    If you wish to install more packages in the future, you just need to use the `conda install <package name>` from your command line.
-
-5) To view a list of packages and versions installed, or to confirm that a package has been added or removed, type `conda list`. Confirm that jupyter, numpy and matplotlib packages have been installed
-
-6) The workshop will be using jupyter notebooks. To see how you can launch this, go to the Launching Jupyter Notebook section below.
+#### Uninstalling miniconda on 
 
 7) If you need to uninstall miniconda for any reason, you can do this through "Add or remove Program" in the control panel, by removing "Python 3.6(Miniconda)"
 
@@ -72,6 +68,8 @@ NOTE: If you see an error message, check to see that you are logged into the sam
 
 6) The workshop will be using jupyter notebooks. To see how you can launch this, go to the Launching Jupyter Notebook section below.
 
+#### Uninstalling miniconda on MacOS
+
 7) If you need to uninstall miniconda for any reason, open a terminal window and remove the entire miniconda install directory by typing: `rm -rf ~/miniconda` 
 
 You may also edit ~/.bash_profile and remove the miniconda directory from your PATH environment variable, and remove the hidden .condarc file and .conda and .continuum directories which may have been created in the home directory with: `rm -rf ~/.condarc ~/.conda ~/.continuum`
@@ -92,9 +90,136 @@ You may also edit ~/.bash_profile and remove the miniconda directory from your P
 
 6) The workshop will be using jupyter notebooks. To see how you can launch this, go to the Launching Jupyter Notebook section below.
 
+#### Uninstalling miniconda on Linux
+
 7) If you need to uninstall miniconda for any reason, open a terminal window and remove the entire miniconda install directory: `rm -rf ~/miniconda`. 
 
 You may also edit `~/.bash_profile` and remove the miniconda directory from your PATH environment variable, and remove the hidden .condarc file and .conda and .continuum directories which may have been created in the home directory with `rm -rf ~/.condarc ~/.conda ~/.continuum`.
+
+
+## Setting up the virtual environment and installing packages
+
+We will go ahead and introduce a best practice and python programming from the beginning. Like we mentioned above, the true power of python is in the thousands of open source libraries (also  known as packages) that often do almost exaclty what you would like to do in one line of code and are constantly being updated to fix bugs and add new features. As you python more and more, you may find that you have different projects that require different sets of packages and maybe even an older or newer version. That's why we suggest creating a "virtual environment" for each project you work on, where you can manage the version of python and all the packages independent of every other project, and the base environment created when you install anaconda. Now there is a program called anaconda navigator where you can create virtual environments and install python packages, but we will show you on the command line way of doing things, which is faster, and when you graduate to Pythonista cloud school, will be the way you do things when working with big data!
+
+#### If you are in windows
+find and open a program called `Anaconda Prompt` from the Windows Start Menu. 
+
+This will open a new window with a black background (it might keep blinking if the computer is slow).
+
+#### If you are on a MacOS or Linux machine
+
+Open your terminal
+
+### Create a virtual environment:
+RIght now, on the left hand side of your terminal entry, you should see `(base)` written. This is showing us that Anaconda is working and that we are in the base environment, something that you shouldn't really change in order to prevent other environments from breaking. Therefore, the first thing you need to do is create a virtual environment using the conda create command by specifying a name:
+
+```bash
+conda create -n VALA_tech_camp python=3.9
+```
+In this command we are running the command, `conda create`, and adding a name argument flag (-n) followed be the name we chose for this virtual environment (can be any text, without spaces) and at the end, we specified the version of python we want installed into this environment (this is optional by the way, and will default to all the packages and versions that are in the base environment). This command will ask you want to proceed, press y then enter.
+
+### activate the environment:
+
+now that we have created the environment, we have to acdtivate it in our anaconda prompt/ terminal using the following commands:
+
+#### if a windows user
+
+```
+activate VALA_tech_camp
+```
+
+#### if a linux or MacOS user:
+
+```bash
+conda activate VALA_tech_camp
+```
+
+You should see that now on the left hand side, there is a `(VALA_tech_camp)` written, showing us that this terminal is in our new virtual environment, and any conda commands to change things will only happen to this environment.
+
+### install packages
+
+Now that our environment is activated, we can start customizing this python install. to install the packages needed for our workshop enter the following command into the terminal and press enter:
+
+```bash
+conda install jupyter numpy pandas matplotlib bokeh
+```
+after you hit `ENTER`, like most anaconda commands where you are changing something, it will ask you to type `y` and `ENTER` again to confirm.
+
+Don't close your termal yet, because we can use it to start a jupyter notebook
+
+# Launching the Jupyter Notebook
+
+For many of these sessions, we're going to be working in the Jupyter notebook. Jupyter can be launched from the anaconda navigator program, but we will teach you how to launch it from your anaconda prompt or terminal in this section. 
+
+After opening the command terminal/ anaconda prompt, you should see a black screen and a `>` prompt after a file path, which is usually your home directory (`C:\users\{yourUserName}  ` in windows and `/Users/{yourUserName}` in MacOS `/home/{yourUserName`} in ubuntu). 
+When Jupyter launches, it sets its "home" folder to be the folder you are in when you launch the notebook, and it can access any sub-folders and files within that location. It cannot however, look outside of the folder where you start it!. 
+This means it's in our best interest to launch from an area where we'll be able to access _all_ of the files we'll require. This is usually in your user folder.
+
+Therefore, in your terminal, use the cd command to navigate to your home folder, if you aren't already there:
+***Windows***
+```bash
+`cd C:/Users/{YourUserName}`
+```
+***MacOS***
+```bash
+`cd /Users/{yourUserName}`
+```
+***Linux***
+```bash
+`cd /home/{yourUserName`
+```
+
+
+Once there, type in the command:
+
+ ```bash
+ jupyter notebook
+ ``` 
+ 
+ to launch Jupyter.
+![command terminal](https://github.com/resbaz/August2017_introPython/blob/master/controlpanel.PNG "Command Line Launch")
+
+You should then see the terminal generate a bunch of text, and it should then open the jupyter home page within a browser window. 
+This should be within whichever browser application is currently set as your default. You can change this in your settings. 
+
+(MacOS/Linux) If the terminal does not automatically open within your browser, you can copy the `http://localhost:888...etc` link into a new browser tab.
+
+This should open to the Jupyter home folder, which will look something like this
+
+![Jupyter Home](https://github.com/resbaz/August2017_introPython/blob/master/jupyterHome.PNG "Jupyter Home Page")
+
+You can click on the blue links inside the main console to navigate through your folders and files. To the top-right of your files 
+box are some command buttons. These allow you to do things like create new folders, new text (*.txt) files, or a new iPython notebook. 
+We will be writing and running our code from inside these *.ipynb files.
+
+When you create a new *.ipynb notebook, you'll get something that looks like this, except empty:
+
+![Notebook](https://github.com/resbaz/August2017_introPython/blob/master/jupyterNotebook.PNG "A guided tour to the *.ipynb")
+
+Play around with the notebook, and have a look to see what you can do. If you'd like a more guided tour/playbox, you can find one [here](http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Notebook%20Basics.ipynb)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## pip Installation for Advanced Users
@@ -121,33 +246,4 @@ __[Note: MacOS has Python installed as part of the operating system. To use Pyth
   Similarly, if you wish to install other packages in the future, you can use `pip3 install <package names>    
 
 
-# Launching the Jupyter Notebook
 
-For many of these sessions, we're going to be working in the Jupyter notebook. Jupyter is launched from your command prompt (windows) or command 
-terminal (MacOS/Linux), which you can find by searching your applications. 
-
-After opening the command terminal, you should see a black screen and a `>` prompt after a file path, usually within your `C:\` drive. 
-When Jupyter launches, it sets its "home" folder to be the folder you are in when you launch the notebook, and it can access any sub-folders and files within that location. 
-This means it's in our best interest to launch from an area where we'll be able to access _all_ of the files we'll require. This is usually in your user folder.
-
-Therefore, in your terminal, type `cd C:/Users/<YourUserName>`. Once there, type in the command `jupyter notebook` to launch Jupyter.
-![command terminal](https://github.com/resbaz/August2017_introPython/blob/master/controlpanel.PNG "Command Line Launch")
-
-You should then see the terminal generate a bunch of text, and it should then open the jupyter home page within a browser window. 
-This should be within whichever browser application is currently set as your default. You can change this in your settings. 
-
-(MacOS/Linux) If the terminal does not automatically open within your browser, you can copy the `http://localhost:888...etc` link into a new browser tab.
-
-This should open to the Jupyter home folder, which will look something like this
-
-![Jupyter Home](https://github.com/resbaz/August2017_introPython/blob/master/jupyterHome.PNG "Jupyter Home Page")
-
-You can click on the blue links inside the main console to navigate through your folders and files. To the top-right of your files 
-box are some command buttons. These allow you to do things like create new folders, new text (*.txt) files, or a new iPython notebook. 
-We will be writing and running our code from inside these *.ipynb files.
-
-When you create a new *.ipynb notebook, you'll get something that looks like this, except empty:
-
-![Notebook](https://github.com/resbaz/August2017_introPython/blob/master/jupyterNotebook.PNG "A guided tour to the *.ipynb")
-
-Play around with the notebook, and have a look to see what you can do. If you'd like a more guided tour/playbox, you can find one [here](http://nbviewer.jupyter.org/github/jupyter/notebook/blob/master/docs/source/examples/Notebook/Notebook%20Basics.ipynb)
